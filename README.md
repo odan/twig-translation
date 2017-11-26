@@ -109,16 +109,19 @@ First name: John, Last name: Doe
 ### Poedit Setup
 
 * Start Poedit and open the .po file
-* Open the menu: `Catelogue` > `Properties...`
+* Open the menu: `Catalogue` > `Properties...`
 * Open the tab: `Source paths` 
-  * Add a new path (relative to the base path) and point it to the twig cache e.g. `..\temp\twig-cache`
-* Open the tab: `Source kayword` 
-  * Add a new keyowrkd with the name `__`
+  * Add a new path and point it to the twig cache 
+  * The path must be relative to the base path e.g. `..\temp\twig-cache`
+* Open the tab: `Source keyword` 
+  * Add a new keyword with the name `__` (2 underscores)
 * Click the `OK` button and `Update` the calalogue.
 
 ### Parsing the Twig file
 
-You have to iterate over all your Twig templates and force compilation. 
+You must iterate across all your Twig templates and force compilation.
+The compilation step generates the PHP cache files that can be parsed from Poedit.
+This script is only an example and must be adapted to your individual environment.
 
 File: `bin/parse-twig.php`
 
@@ -154,3 +157,5 @@ foreach (new RecursiveIteratorIterator($directory, RecursiveIteratorIterator::SE
 
 echo "Done\n";
 ```
+
+To run this script just run: `php bin/parse-twig.php`
