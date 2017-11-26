@@ -83,7 +83,7 @@ Translate a text with a placeholder:
 {{ __('Hello: %s', username) }}
 ```
 
-Output:
+Output (depends on the language):
 
 ```
 Hello master
@@ -95,7 +95,7 @@ Translate a text with multiple placeholders:
 {{ __('First name: %s, Last name: %s', firstName, lastName) }}
 ```
 
-Output: 
+Output (depends on the language):
 
 ```
 First name: John, Last name: Doe
