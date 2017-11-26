@@ -18,6 +18,27 @@ composer install odan/twig-translation
 
 ## Integration
 
+### Register the Twig Extension
+
+```php
+$loader = new Twig_Loader_Filesystem('/path/to/templates');
+$twig = new Twig_Environment($loader, array(
+    'cache' => '/path/to/compilation_cache',
+));
+
+$twig->addExtension(new \Odan\Twig\TwigTranslationExtension());
+```
+
+### Slim Framework
+
+In your `dependencies.php` or wherever you add your service factories:
+
+```php
+$twig->addExtension(new \Odan\Twig\TwigTranslationExtension());
+```
+
+## Register a callback function
+
 Create a global callback function with the name `__`.
 
 This example used the [symfony/translation](https://github.com/symfony/translation) component:
@@ -46,25 +67,6 @@ function __($message)
     }
     return $translated;
 }
-```
-
-### Register the Twig Extension
-
-```php
-$loader = new Twig_Loader_Filesystem('/path/to/templates');
-$twig = new Twig_Environment($loader, array(
-    'cache' => '/path/to/compilation_cache',
-));
-
-$twig->addExtension(new \Odan\Twig\TwigTranslationExtension());
-```
-
-### Slim Framework
-
-In your `dependencies.php` or wherever you add your service factories:
-
-```php
-$twig->addExtension(new \Odan\Twig\TwigTranslationExtension());
 ```
 
 ## Usage
@@ -97,8 +99,26 @@ First name: John, Last name: Doe
 
 ## Parsing with Poedit
 
+### The workflow
+
+1. Parse all twig files (`php bin/parse-twig.php`)
+2. Start Poedit and open the .po file
+3. Click the "Update" button to parse all PHP and Twig Cache files
+4. Translate the text and save the file.
+
+### Poedit Setup
+
+* Start Poedit and open the .po file
+* Open the menu: `Catelogue` > `Properties...`
+* Open the tab: `Source paths` 
+  * Add a new path (relative to the base path) and point it to the twig cache e.g. `..\temp\twig-cache`
+* Open the tab: `Source kayword` 
+  * Add a new keyowrkd with the name `__`
+* Click the `OK` button and `Update` the calalogue.
+
+### Parsing the Twig file
+
 You have to iterate over all your Twig templates and force compilation. 
-Then just add the local Twig cache patch to the Poedit Source path and update the catalog.
 
 File: `bin/parse-twig.php`
 
