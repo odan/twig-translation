@@ -43,7 +43,7 @@ Create a global callback function with the name `__`.
 
 This example used the [symfony/translation](https://github.com/symfony/translation) component:
 
-```
+```php
 /**
  * Text translation (I18n)
  *
@@ -79,7 +79,9 @@ Translate a text:
 
 Translate a text with a placeholder:
 
+```twig
 {{ __('Hello: %s', username) }}
+```
 
 Output:
 
@@ -89,7 +91,9 @@ Hello master
 
 Translate a text with multiple placeholders:
 
+```twig
 {{ __('First name: %s, Last name: %s', firstName, lastName) }}
+```
 
 Output: 
 
@@ -103,7 +107,7 @@ First name: John, Last name: Doe
 
 1. Parse all twig files (`php bin/parse-twig.php`)
 2. Start Poedit and open the .po file
-3. Click the "Update" button to parse all PHP and Twig Cache files
+3. Click the `Update` button to parse all PHP and Twig cache files
 4. Translate the text and save the file.
 
 ### Poedit Setup
