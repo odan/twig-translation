@@ -121,9 +121,9 @@ First name: John, Last name: Doe
   * Add a new keyword with the name `__` (2 underscores)
 * Click the `OK` button and `Update` the calalogue.
 
-### Parsing the Twig file
+### Parsing the Twig files
 
-You must iterate across all your Twig templates and force compilation.
+You need to iterate and compile all your Twig templates.
 The compilation step generates the PHP cache files that can be parsed from Poedit.
 This script is only an example and must be adapted to your individual environment.
 
@@ -142,6 +142,8 @@ $twig = $container->get(\Slim\Views\Twig::class);
 $settings = $container->get('settings');
 $viewPath = $settings['view']['path'];
 $cachePath = $settings['view']['cache_path'];
+
+// todo: clean old cache path
 
 // Iterate over all your templates and force compilation
 $twig->getEnvironment()->disableDebug();
