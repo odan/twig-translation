@@ -134,32 +134,24 @@ File: `bin/parse-twig.php`
 
 require_once __DIR__ . '/../config/bootstrap.php';
 
-$container = container();
+$container = app()->getContainer();
 
-/* @var \Slim\Views\Twig $twig */
-$twig = $container->get(\Slim\Views\Twig::class);
+/* @var \Slim\Views\Twig $twigView */
+$twigView = $container->get(\Slim\Views\Twig::class);
 
 $settings = $container->get('settings');
 $viewPath = $settings['view']['path'];
 $cachePath = $settings['view']['cache_path'];
 
-// todo: clean old cache path
+// Get the Twig Environment instance from the Twig View instance
+$twig = $twigView->getEnvironment();
 
-// Iterate over all your templates and force compilation
-$twig->getEnvironment()->disableDebug();
-$twig->getEnvironment()->enableAutoReload();
-$twig->getEnvironment()->setCache($cachePath);
+// optional
+//$twig->setCache($cachePath);
 
-$directory = new RecursiveDirectoryIterator($viewPath, FilesystemIterator::SKIP_DOTS);
-foreach (new RecursiveIteratorIterator($directory, RecursiveIteratorIterator::SELF_FIRST) as $file) {
-    /* @var SplFileInfo $file */
-    if ($file->isFile() && $file->getExtension() === 'twig') {
-        $templateName = substr($file->getPathname(), strlen($viewPath) + 1);
-        $templateName = str_replace('\\', '/', $templateName);
-        echo sprintf("Parse file: %s\n", $templateName);
-        $twig->getEnvironment()->loadTemplate($templateName);
-    }
-}
+// Compile all Twig templates into cache directory
+$compiler = new \Odan\Twig\TwigCompiler($twig, $cachePath);
+$compiler->compile();
 
 echo "Done\n";
 ```
