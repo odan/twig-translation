@@ -84,10 +84,11 @@ abstract class AbstractTest extends TestCase
 
         $options = [
             'path' => $templatePath,
-            'cache' => false,
+            // Fix vfsStream issue with the tempnam() funtion in the Twig_Cache_Filesystem class
+            'cache' => new TwigCacheVfsStream(vfsStream::url('root/tmp/twig-cache')),
         ];
 
-        $this->env = new \Twig_Environment($this->loader, $options);
+        $this->env = new Twig_Environment($this->loader, $options);
         $this->extension = $this->newExtensionInstance();
     }
 

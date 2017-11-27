@@ -47,6 +47,7 @@ class TwigCompiler
      * Compile all twig templates.
      *
      * @return bool Success
+     * @throws Exception Exception
      */
     public function compile()
     {
@@ -57,11 +58,8 @@ class TwigCompiler
         $this->twig->disableDebug();
         $this->twig->enableAutoReload();
 
-        // Fix vfsStream issue with the tempnam() funtion in the Twig_Cache_Filesystem class
-        if (strpos($this->cachePath, 'vfs://') === 0) {
-            $this->twig->setCache(false);
-        } else {
-            $this->twig->setCache($this->cachePath);
+        if (!$this->twig->getCache()) {
+            throw new Exception('The Twig cache must be enabled!');
         }
 
         /* @var Twig_Loader_Filesystem $loader */
@@ -88,7 +86,7 @@ class TwigCompiler
             if ($file->isFile() && $file->getExtension() === 'twig') {
                 $templateName = substr($file->getPathname(), strlen($viewPath) + 1);
                 $templateName = str_replace('\\', '/', $templateName);
-                echo sprintf("Parsing: %s\n", $templateName);
+                //echo sprintf("Parsing: %s\n", $templateName);
                 $this->twig->loadTemplate($templateName);
             }
         }
