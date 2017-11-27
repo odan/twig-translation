@@ -58,7 +58,7 @@ class TwigCompiler
         $this->twig->enableAutoReload();
 
         // Fix vfsStream issue with the tempnam() funtion in the Twig_Cache_Filesystem class
-        if(strpos($this->cachePath, 'vfs://') === 0) {
+        if (strpos($this->cachePath, 'vfs://') === 0) {
             $this->twig->setCache(false);
         } else {
             $this->twig->setCache($this->cachePath);
