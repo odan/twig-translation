@@ -56,8 +56,13 @@ class TwigCompiler
         // Iterate over all your templates and force compilation
         $this->twig->disableDebug();
         $this->twig->enableAutoReload();
-        //$this->twig->setCache($this->cachePath);
-        $this->twig->setCache(false);
+
+        // Fix vfsStream issue with the tempnam() funtion in the Twig_Cache_Filesystem class
+        if(strpos($this->cachePath, 'vfs://') === 0) {
+            $this->twig->setCache(false);
+        } else {
+            $this->twig->setCache($this->cachePath);
+        }
 
         /* @var Twig_Loader_Filesystem $loader */
         $loader = $this->twig->getLoader();
@@ -104,7 +109,6 @@ class TwigCompiler
                 continue;
             }
             $dirName = $fileInfo->getPathname();
-            //echo "Dir: " . $dirName . "\n";
             $this->removeDirectory($dirName);
         }
 
@@ -113,7 +117,6 @@ class TwigCompiler
         /* @var SplFileInfo $file */
         foreach ($files as $file) {
             $fileName = $file->getPathname();
-            //echo "File: " . $fileName . "\n";
             unlink($fileName);
         }
 
