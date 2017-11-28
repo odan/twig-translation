@@ -140,14 +140,12 @@ $container = app()->getContainer();
 $twigView = $container->get(\Slim\Views\Twig::class);
 
 $settings = $container->get('settings');
-$viewPath = $settings['view']['path'];
-$cachePath = $settings['view']['cache_path'];
+$viewPath = $settings['twig']['path'];
+$cachePath = $settings['twig']['cache_path'];
 
 // Get the Twig Environment instance from the Twig View instance
 $twig = $twigView->getEnvironment();
-
-// optional
-//$twig->setCache($cachePath);
+$twig->setCache($cachePath);
 
 // Compile all Twig templates into cache directory
 $compiler = new \Odan\Twig\TwigCompiler($twig, $cachePath);
