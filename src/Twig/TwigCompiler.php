@@ -2,9 +2,9 @@
 
 namespace Odan\Twig;
 
+use DirectoryIterator;
 use Exception;
 use FilesystemIterator;
-use DirectoryIterator;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use SplFileInfo;
@@ -40,7 +40,7 @@ class TwigCompiler
         }
 
         $this->twig = $twig;
-        $this->cachePath = $cachePath;
+        $this->cachePath = str_replace('\\', '/', trim($cachePath, '\/'));
     }
 
     /**
@@ -52,7 +52,13 @@ class TwigCompiler
     public function compile()
     {
         // Delete old twig cache files
-        $this->removeDirectory($this->cachePath);
+        if (file_exists($this->cachePath)) {
+            $this->removeDirectory($this->cachePath);
+        }
+
+        if (!file_exists($this->cachePath)) {
+            mkdir($this->cachePath);
+        }
 
         // Iterate over all your templates and force compilation
         $this->twig->disableDebug();
