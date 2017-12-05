@@ -9,7 +9,7 @@ use Odan\Twig\TwigTranslationExtension;
  *
  * @coversDefaultClass \Odan\Twig\TwigTranslationExtension
  */
-class TwigAssetsExtensionTest extends AbstractTest
+class TwigTranslationExtensionTest extends AbstractTest
 {
 
     /**
