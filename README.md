@@ -47,8 +47,7 @@ This example used the [symfony/translation](https://github.com/symfony/translati
 /**
  * Text translation (I18n)
  *
- * @param string $message
- * @param ...$context
+ * @param mixed|Translator $message
  * @return string
  *
  * <code>
@@ -58,8 +57,13 @@ This example used the [symfony/translation](https://github.com/symfony/translati
  */
 function __($message)
 {
-    /* @var $translator Translator */
-    $translator = container()->get(Translator::class);
+    /* @var Translator $translator */
+    static $translator = null;
+    if ($message instanceof Translator) {
+        $translator = $message;
+        return '';
+    }
+
     $translated = $translator->trans($message);
     $context = array_slice(func_get_args(), 1);
     if (!empty($context)) {
