@@ -47,7 +47,7 @@ This example used the [symfony/translation](https://github.com/symfony/translati
 /**
  * Text translation (I18n)
  *
- * @param mixed|Translator $message
+ * @param string|Translator $message
  * @return string
  *
  * <code>
@@ -103,6 +103,39 @@ Output (depends on the language):
 
 ```
 First name: John, Last name: Doe
+```
+
+Create a plural translation:
+
+Example 1:
+```twig
+{% if count > 1 %}
+    {{ count }} {{ __('Users') }}
+{% else %}
+    {{ count }} {{ __('User') }}
+{% endif %}
+```
+
+Example 2:
+
+```twig
+{% if users|length > 1 %}
+    {{ users|length }} {{ __('Users') }}
+{% else %}
+    {{ users|length }} {{ __('User') }}
+{% endif %}
+```
+
+Create a complex plural translation:
+
+```twig
+{% if not count %}
+    {{ __('No users') }}
+{% elseif count = 1 %}
+    {{ count }} {{ __('User') }}
+{% else %}
+    {{ count }} {{ __('Users') }}
+{% endif %}
 ```
 
 ## Parsing with Poedit
