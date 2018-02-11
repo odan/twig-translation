@@ -15,14 +15,14 @@ class TwigTranslationExtension extends Twig_Extensions_Extension_I18n
     /**
      * The translator callback function.
      *
-     * @var callable|string|null
+     * @var callable|string
      */
-    private $translator;
+    private $translator = '__';
 
     /**
      * The constructor.
      *
-     * @param string|null $translator A callable implementing the translation.
+     * @param string|callable|null $translator A callable implementing the translation.
      * If null, the "__" function will be used.
      */
     public function __construct($translator = null)
@@ -36,7 +36,7 @@ class TwigTranslationExtension extends Twig_Extensions_Extension_I18n
     public function getFilters()
     {
         return array(
-            new Twig_SimpleFilter('__', $this->translator),
+            new Twig_SimpleFilter('__', [$this, 'translate']),
         );
     }
 
@@ -45,9 +45,19 @@ class TwigTranslationExtension extends Twig_Extensions_Extension_I18n
      */
     public function getFunctions()
     {
-        $translator = new Twig_SimpleFunction('__', $this->translator);
+        $translator = new Twig_SimpleFunction('__', [$this, 'translate']);
         $translator->setArguments([]);
 
         return array($translator);
+    }
+
+    /**
+     * Translate callback.
+     *
+     * @return mixed
+     */
+    public function translate()
+    {
+        return call_user_func_array($this->translator, func_get_args());
     }
 }
