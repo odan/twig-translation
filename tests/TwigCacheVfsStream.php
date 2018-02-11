@@ -6,7 +6,7 @@ use RuntimeException;
 use Twig_Cache_Filesystem;
 
 // Shim to not throw "Function opcache_invalidate not found" error when opcache is not enabled
-if (!function_exists('opcache_invalidate')) {
+if (!function_exists('\opcache_invalidate')) {
     /**
      * @param string $script
      * @param bool $force
@@ -19,7 +19,7 @@ if (!function_exists('opcache_invalidate')) {
 }
 
 // Shim to not throw "Function apc_compile_file not found" error when opcache is not enabled
-if (!function_exists('apc_compile_file')) {
+if (!function_exists('\apc_compile_file')) {
     /**
      * @param string $filename
      * @param bool $atomic
