@@ -36,7 +36,7 @@ class TwigTranslationExtension extends Twig_Extensions_Extension_I18n
     public function getFilters()
     {
         return array(
-            new Twig_SimpleFilter('__', [$this, 'translate']),
+            new Twig_SimpleFilter('__', [$this, '__']),
         );
     }
 
@@ -45,7 +45,7 @@ class TwigTranslationExtension extends Twig_Extensions_Extension_I18n
      */
     public function getFunctions()
     {
-        $translator = new Twig_SimpleFunction('__', [$this, 'translate']);
+        $translator = new Twig_SimpleFunction('__', [$this, '__']);
         $translator->setArguments([]);
 
         return array($translator);
@@ -56,7 +56,7 @@ class TwigTranslationExtension extends Twig_Extensions_Extension_I18n
      *
      * @return mixed
      */
-    public function translate()
+    public function __()
     {
         return call_user_func_array($this->translator, func_get_args());
     }
