@@ -13,7 +13,7 @@ Twig Translation Extension for the [Poedit](https://poedit.net/) translations ed
 ## Installation
 
 ```
-composer install odan/twig-translation
+composer require odan/twig-translation
 ```
 
 ## Integration
