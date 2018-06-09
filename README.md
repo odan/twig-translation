@@ -41,7 +41,7 @@ $twig->addExtension(new \Odan\Twig\TwigTranslationExtension());
 
 Create a global callback function with the name `__`.
 
-This example used the [symfony/translation](https://github.com/symfony/translation) component:
+This example uses the [symfony/translation](https://github.com/symfony/translation) component:
 
 ```php
 /**
