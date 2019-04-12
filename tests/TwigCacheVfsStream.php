@@ -3,12 +3,12 @@
 namespace Odan\Test;
 
 use RuntimeException;
-use Twig_Cache_Filesystem;
+use Twig\Cache\FilesystemCache;
 
 /**
- * Class TwigCacheVfs
+ * Class.
  */
-class TwigCacheVfsStream extends Twig_Cache_Filesystem
+class TwigCacheVfsStream extends FilesystemCache
 {
     private $options;
 
@@ -34,10 +34,11 @@ class TwigCacheVfsStream extends Twig_Cache_Filesystem
 
         // Fixed tempnam() issue with VfS
         $key2 = str_replace('vfs:/', '', $key);
-        $tmpFile = $dir . '/' . uniqid(mt_rand(), true) . '_' . basename($key2);
+        $tmpFile = $dir . '/' . uniqid((string)mt_rand(), true) . '_' . basename($key2);
 
         if (false !== @file_put_contents($tmpFile, $content) && @rename($tmpFile, $key)) {
             @chmod($key, 0666 & ~umask());
+
             return;
         }
 

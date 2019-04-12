@@ -9,10 +9,14 @@ require_once __DIR__ . '/../vendor/autoload.php';
 $phpunit = new \PHPUnit\TextUI\TestRunner();
 
 try {
-    echo "<pre>\n";
-    $testResults = $phpunit->doRun($phpunit->getTest(__DIR__, '', 'Test.php'), array(), false);
-    echo "</pre>\n";
+    $suite = $phpunit->getTest(__DIR__ . '/TestCase/', '', 'Test.php');
+
+    if ($suite === null) {
+        throw new RuntimeException('No tests found');
+    }
+
+    $testResults = $phpunit->doRun($suite, [], false);
 } catch (\PHPUnit\Framework\Exception $e) {
-    print $e->getMessage() . "\n";
-    echo "Unit tests failed.";
+    echo $e->getMessage() . "\n";
+    echo 'Unit tests failed.';
 }

@@ -6,21 +6,21 @@ use Odan\Twig\TwigTranslationExtension;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
 use PHPUnit\Framework\TestCase;
-use Twig_Environment;
-use Twig_Loader_Filesystem;
+use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
 
 /**
- * BaseTest
+ * Base class.
  */
 abstract class AbstractTest extends TestCase
 {
     /**
-     * @var Twig_Loader_Filesystem
+     * @var FilesystemLoader
      */
     protected $loader;
 
     /**
-     * @var Twig_Environment
+     * @var Environment
      */
     protected $env;
 
@@ -40,7 +40,7 @@ abstract class AbstractTest extends TestCase
     protected $options = [];
 
     /**
-     * Set up
+     * Set up.
      */
     public function setUp()
     {
@@ -52,7 +52,7 @@ abstract class AbstractTest extends TestCase
             'cache_path' => vfsStream::url('root/tmp'),
             'cache_name' => 'assets-cache',
             'cache_lifetime' => 0,
-            'minify' => true
+            'minify' => true,
         ];
 
         $this->root = vfsStream::setup('root');
@@ -66,7 +66,7 @@ abstract class AbstractTest extends TestCase
         vfsStream::newDirectory('templates/sub1/sub2')->at($this->root);
 
         $templatePath = vfsStream::url('root/templates');
-        $this->loader = new Twig_Loader_Filesystem([$templatePath]);
+        $this->loader = new FilesystemLoader([$templatePath]);
 
         // Add alias path: @public/ -> root/public
         $this->loader->addPath(vfsStream::url('root/public'), 'public');
@@ -84,11 +84,11 @@ abstract class AbstractTest extends TestCase
 
         $options = [
             'path' => $templatePath,
-            // Fix vfsStream issue with the tempnam() funtion in the Twig_Cache_Filesystem class
+            // Fix vfsStream issue with the tempnam() funtion in the FilesystemCache class
             'cache' => new TwigCacheVfsStream(vfsStream::url('root/tmp/twig-cache')),
         ];
 
-        $this->env = new Twig_Environment($this->loader, $options);
+        $this->env = new Environment($this->loader, $options);
         $this->extension = $this->newExtensionInstance();
     }
 
@@ -97,6 +97,10 @@ abstract class AbstractTest extends TestCase
      */
     public function newExtensionInstance()
     {
-        return new TwigTranslationExtension();
+        $translator = function ($text) {
+            return $text;
+        };
+
+        return new TwigTranslationExtension($translator);
     }
 }

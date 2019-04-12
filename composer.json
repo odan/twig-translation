@@ -25,7 +25,8 @@
   },
   "require-dev": {
     "phpunit/phpunit": "^6.0",
-    "mikey179/vfsStream": "^1.6"
+    "mikey179/vfsStream": "^1.6",
+    "phpstan/phpstan-shim": "^0.11"
   },
   "scripts": {
     "test": "phpunit",

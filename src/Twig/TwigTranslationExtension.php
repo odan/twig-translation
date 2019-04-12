@@ -2,32 +2,38 @@
 
 namespace Odan\Twig;
 
-use Twig_Extensions_Extension_I18n;
-use Twig_SimpleFilter;
-use Twig_SimpleFunction;
+use InvalidArgumentException;
+use Twig\Extensions\I18nExtension;
+use Twig\TwigFilter;
+use Twig\TwigFunction;
 
 /**
- * Class TwigTranslationExtension
+ * Class TwigTranslationExtension.
  */
-class TwigTranslationExtension extends Twig_Extensions_Extension_I18n
+class TwigTranslationExtension extends I18nExtension
 {
-
     /**
      * The translator callback function.
      *
      * @var callable|string
      */
-    private $translator = '__';
+    private $translator;
 
     /**
      * The constructor.
      *
-     * @param string|callable|null $translator A callable implementing the translation.
+     * @param callable|string|null $translator A callable implementing the translation.
      * If null, the "__" function will be used.
+     *
+     * @throws InvalidArgumentException
      */
     public function __construct($translator = null)
     {
-        $this->translator = $translator ? $translator : '__';
+        $this->translator = $translator ?: '__';
+
+        if (!is_callable($this->translator)) {
+            throw new InvalidArgumentException('Translator must be a valid callable');
+        }
     }
 
     /**
@@ -35,9 +41,9 @@ class TwigTranslationExtension extends Twig_Extensions_Extension_I18n
      */
     public function getFilters()
     {
-        return array(
-            new Twig_SimpleFilter('__', [$this, '__']),
-        );
+        return [
+            new TwigFilter('__', [$this, '__']),
+        ];
     }
 
     /**
@@ -45,10 +51,10 @@ class TwigTranslationExtension extends Twig_Extensions_Extension_I18n
      */
     public function getFunctions()
     {
-        $translator = new Twig_SimpleFunction('__', [$this, '__']);
+        $translator = new TwigFunction('__', [$this, '__']);
         $translator->setArguments([]);
 
-        return array($translator);
+        return [$translator];
     }
 
     /**

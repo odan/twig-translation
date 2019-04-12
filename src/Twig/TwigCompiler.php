@@ -7,17 +7,18 @@ use Exception;
 use FilesystemIterator;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
+use RuntimeException;
 use SplFileInfo;
-use Twig_Environment;
-use Twig_Loader_Filesystem;
+use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
 
 /**
- * Class TwigCompiler
+ * Class TwigCompiler.
  */
 class TwigCompiler
 {
     /**
-     * @var Twig_Environment
+     * @var Environment
      */
     private $twig;
 
@@ -29,14 +30,15 @@ class TwigCompiler
     /**
      * The constructor.
      *
-     * @param Twig_Environment $twig The Twig Environment instance
+     * @param Environment $twig The Twig Environment instance
      * @param string $cachePath The twig cache path
+     *
      * @throws Exception
      */
-    public function __construct(Twig_Environment $twig, string $cachePath)
+    public function __construct(Environment $twig, string $cachePath)
     {
         if (empty($cachePath)) {
-            throw new Exception('The cache path cannot be empty');
+            throw new RuntimeException('The cache path cannot be empty');
         }
 
         $this->twig = $twig;
@@ -46,10 +48,11 @@ class TwigCompiler
     /**
      * Compile all twig templates.
      *
-     * @return bool Success
      * @throws Exception Exception
+     *
+     * @return bool Success
      */
-    public function compile()
+    public function compile(): bool
     {
         // Delete old twig cache files
         if (file_exists($this->cachePath)) {
@@ -65,15 +68,17 @@ class TwigCompiler
         $this->twig->enableAutoReload();
 
         if (!$this->twig->getCache()) {
-            throw new Exception('The Twig cache must be enabled!');
+            throw new RuntimeException('The Twig cache must be enabled!');
         }
 
-        /* @var Twig_Loader_Filesystem $loader */
         $loader = $this->twig->getLoader();
-        $paths = $loader->getPaths();
 
-        foreach ($paths as $path) {
-            $this->compileFiles($path);
+        if ($loader instanceof FilesystemLoader) {
+            $paths = $loader->getPaths();
+
+            foreach ($paths as $path) {
+                $this->compileFiles($path);
+            }
         }
 
         return true;
@@ -83,12 +88,15 @@ class TwigCompiler
      * Compile Twig files.
      *
      * @param string $viewPath
+     *
+     * @return void
      */
-    private function compileFiles($viewPath)
+    private function compileFiles(string $viewPath)
     {
         $directory = new RecursiveDirectoryIterator($viewPath, FilesystemIterator::SKIP_DOTS);
+
         foreach (new RecursiveIteratorIterator($directory, RecursiveIteratorIterator::SELF_FIRST) as $file) {
-            /* @var SplFileInfo $file */
+            /** @var SplFileInfo $file */
             if ($file->isFile() && $file->getExtension() === 'twig') {
                 $templateName = substr($file->getPathname(), strlen($viewPath) + 1);
                 $templateName = str_replace('\\', '/', $templateName);
@@ -103,9 +111,10 @@ class TwigCompiler
      * This function is compatible with vfsStream.
      *
      * @param string $path Path
-     * @return bool True on success or false on failure.
+     *
+     * @return bool true on success or false on failure
      */
-    private function removeDirectory($path)
+    private function removeDirectory(string $path): bool
     {
         $iterator = new DirectoryIterator($path);
         foreach ($iterator as $fileInfo) {
@@ -118,7 +127,7 @@ class TwigCompiler
 
         $files = new FilesystemIterator($path);
 
-        /* @var SplFileInfo $file */
+        /** @var SplFileInfo $file */
         foreach ($files as $file) {
             $fileName = $file->getPathname();
             unlink($fileName);

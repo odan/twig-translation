@@ -6,13 +6,12 @@ use Odan\Twig\TwigCompiler;
 use org\bovigo\vfs\vfsStream;
 
 /**
- * AssetCacheTest
+ * AssetCacheTest.
  *
  * @coversDefaultClass \Odan\Twig\TwigCompiler
  */
 class TwigCompilerTest extends AbstractTest
 {
-
     /**
      * @return TwigCompiler
      */
