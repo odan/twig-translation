@@ -21,8 +21,8 @@ composer require odan/twig-translation
 ### Register the Twig Extension
 
 ```php
-$loader = new Twig_Loader_Filesystem('/path/to/templates');
-$twig = new Twig_Environment($loader, array(
+$loader = new \Twig\Loader\FilesystemLoader('/path/to/templates');
+$twig = new \Twig\Environment($loader, array(
     'cache' => '/path/to/compilation_cache',
 ));
 
