@@ -44,6 +44,9 @@ Create a global callback function with the name `__`.
 This example uses the [symfony/translation](https://github.com/symfony/translation) component:
 
 ```php
+
+use Symfony\Component\Translation\Translator;
+
 /**
  * Text translation (I18n)
  *
@@ -59,7 +62,7 @@ function __($message)
 {
     /* @var Translator $translator */
     static $translator = null;
-    if ($message instanceof \Symfony\Component\Translation\Translator) {
+    if ($message instanceof Translator) {
         $translator = $message;
         return '';
     }
@@ -169,22 +172,16 @@ File: `bin/parse-twig.php`
 ```php
 <?php
 
-require_once __DIR__ . '/../config/bootstrap.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
-$container = app()->getContainer();
+// Specify our Twig templates location
+$loader = new \Twig\Loader\FilesystemLoader(__DIR__ . '/../templates');
 
-/* @var \Slim\Views\Twig $twigView */
-$twigView = $container->get(\Slim\Views\Twig::class);
-
-$settings = $container->get('settings');
-$viewPath = $settings['twig']['path'];
-$cachePath = $settings['twig']['cache_path'];
-
-// Get the Twig Environment instance from the Twig View instance
-$twig = $twigView->getEnvironment();
-$twig->setCache($cachePath);
+ // Instantiate Twig
+$twig = new \Twig\Environment($loader);
 
 // Compile all Twig templates into cache directory
+$cachePath = __DIR__ . '/../tmp/twig-cache';
 $compiler = new \Odan\Twig\TwigCompiler($twig, $cachePath);
 $compiler->compile();
 
