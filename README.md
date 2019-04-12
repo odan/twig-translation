@@ -1,6 +1,6 @@
 # Twig Translation Extension
 
-Twig Translation Extension for the [Poedit](https://poedit.net/) translations editor.
+A Twig Translation Extension.
 
 [![Latest Version on Packagist](https://img.shields.io/github/release/odan/twig-translation.svg)](https://github.com/odan/twig-translation/releases)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg)](LICENSE.md)
@@ -23,17 +23,9 @@ composer require odan/twig-translation
 ```php
 $loader = new \Twig\Loader\FilesystemLoader('/path/to/templates');
 $twig = new \Twig\Environment($loader, array(
-    'cache' => '/path/to/compilation_cache',
+    'cache' => '/path/to/twig-cache',
 ));
 
-$twig->addExtension(new \Odan\Twig\TwigTranslationExtension());
-```
-
-### Slim Framework
-
-In your `dependencies.php` or wherever you add your service factories:
-
-```php
 $twig->addExtension(new \Odan\Twig\TwigTranslationExtension());
 ```
 
@@ -60,8 +52,9 @@ use Symfony\Component\Translation\Translator;
  */
 function __($message)
 {
-    /* @var Translator $translator */
+    /** @var Translator $translator */
     static $translator = null;
+    
     if ($message instanceof Translator) {
         $translator = $message;
         return '';
@@ -69,9 +62,11 @@ function __($message)
 
     $translated = $translator->trans($message);
     $context = array_slice(func_get_args(), 1);
+    
     if (!empty($context)) {
         $translated = vsprintf($translated, $context);
     }
+    
     return $translated;
 }
 ```
@@ -161,7 +156,7 @@ Create a complex plural translation:
   * Add a new keyword with the name `__` (2 underscores)
 * Click the `OK` button and `Update` the calalogue.
 
-### Parsing the Twig files
+### Parsing Twig files
 
 You need to iterate and compile all your Twig templates.
 The compilation step generates the PHP cache files that can be parsed from Poedit.
@@ -180,7 +175,7 @@ $loader = new \Twig\Loader\FilesystemLoader(__DIR__ . '/../templates');
  // Instantiate Twig
 $twig = new \Twig\Environment($loader);
 
-// Compile all Twig templates into cache directory
+// Compile all Twig templates into the cache directory
 $cachePath = __DIR__ . '/../tmp/twig-cache';
 $compiler = new \Odan\Twig\TwigCompiler($twig, $cachePath);
 $compiler->compile();
@@ -188,4 +183,4 @@ $compiler->compile();
 echo "Done\n";
 ```
 
-To run this script just run: `php bin/parse-twig.php`
+To run this script just enter: `php bin/parse-twig.php`
