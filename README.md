@@ -59,7 +59,7 @@ function __($message)
 {
     /* @var Translator $translator */
     static $translator = null;
-    if ($message instanceof Translator) {
+    if ($message instanceof \Symfony\Component\Translation\Translator) {
         $translator = $message;
         return '';
     }
