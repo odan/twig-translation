@@ -1,26 +1,19 @@
 language: php
 
 php:
-  - 7.1
   - 7.2
   - 7.3
 
 dist: xenial
 
-addons:
-  apt:
-    packages:
-      - ant
-
-# Cache composer
 cache:
   directories:
     - $HOME/.composer/cache
 
 before_script:
-  - travis_retry composer self-update
-  - travis_retry composer install ${COMPOSER_FLAGS} --no-interaction --prefer-dist --no-progress
+  - composer self-update
+  - composer install --no-interaction --prefer-dist --no-progress
   - cd $TRAVIS_BUILD_DIR
 
 script:
-  - ant check-all
+  - composer check-all
