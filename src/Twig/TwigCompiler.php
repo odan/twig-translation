@@ -5,9 +5,9 @@ namespace Odan\Twig;
 use DirectoryIterator;
 use Exception;
 use FilesystemIterator;
+use InvalidArgumentException;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
-use RuntimeException;
 use SplFileInfo;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
@@ -33,12 +33,12 @@ class TwigCompiler
      * @param Environment $twig The Twig Environment instance
      * @param string $cachePath The twig cache path
      *
-     * @throws Exception
+     * @throws InvalidArgumentException
      */
     public function __construct(Environment $twig, string $cachePath)
     {
         if (empty($cachePath)) {
-            throw new RuntimeException('The cache path cannot be empty');
+            throw new InvalidArgumentException('The cache path is required');
         }
 
         $this->twig = $twig;
@@ -99,7 +99,7 @@ class TwigCompiler
             if ($file->isFile() && $file->getExtension() === 'twig') {
                 $templateName = substr($file->getPathname(), strlen($viewPath) + 1);
                 $templateName = str_replace('\\', '/', $templateName);
-                //echo sprintf("Parsing: %s\n", $templateName);
+                echo sprintf("Parsing: %s\n", $templateName);
                 $this->twig->loadTemplate($templateName);
             }
         }
