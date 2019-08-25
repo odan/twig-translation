@@ -245,7 +245,7 @@ $cachePath = (string)$settings['cache_path'];
 
 $twig = $app->getContainer()->get(Twig::class);
 
-$compiler = new TwigCompiler($twig, $cachePath);
+$compiler = new TwigCompiler($twig, $cachePath, true);
 $compiler->compile();
 
 echo "Done\n";
