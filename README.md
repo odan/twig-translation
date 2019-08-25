@@ -232,19 +232,20 @@ This script is only an example and must be adapted to your individual environmen
 File: `bin/parse-twig.php`
 
 ```php
-<?php
+use Odan\Twig\TwigCompiler;
+use Slim\App;
+use Twig\Environment as Twig;
 
-require_once __DIR__ . '/../vendor/autoload.php';
+/** @var App $app */
+$app = require __DIR__ . '/../config/bootstrap.php';
 
-// Specify our Twig templates location
-$loader = new \Twig\Loader\FilesystemLoader(__DIR__ . '/../templates');
+$settings = $app->getContainer()->get('settings')['twig'];
+$templatePath = (string)$settings['path'];
+$cachePath = (string)$settings['cache_path'];
 
- // Instantiate Twig
-$twig = new \Twig\Environment($loader);
+$twig = $app->getContainer()->get(Twig::class);
 
-// Compile all Twig templates into the cache directory
-$cachePath = __DIR__ . '/../tmp/twig-cache';
-$compiler = new \Odan\Twig\TwigCompiler($twig, $cachePath);
+$compiler = new TwigCompiler($twig, $cachePath);
 $compiler->compile();
 
 echo "Done\n";
