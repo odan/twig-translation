@@ -35,6 +35,15 @@ Create a global callback function with the name `__`.
 
 This example uses the [symfony/translation](https://github.com/symfony/translation) component:
 
+### Installation
+
+```php
+composer require symfony/translation 
+composer require symfony/config
+```
+
+Add this function to a file like `src/Utility/translate.php`:
+
 ```php
 <?php
 
@@ -70,6 +79,63 @@ function __($message): string
 
     return $translated;
 }
+```
+
+Register the composer autoloader in composer.json:
+
+```json
+"autoload": {
+    "files": [
+        "src/Utility/translate.php"
+    ]
+},
+```
+
+## Slim 4 integration
+
+Add settings:
+
+```php
+// View settings
+$settings['twig'] = [
+    'path' => '/path/to/templates',
+    // Should be set to true in production
+    'cache_enabled' => false,
+    'cache_path' => '/path/to/temp/twig-cache',
+];
+```
+
+Add a new container entry:
+
+```php
+use League\Container\Container;
+use Odan\Twig\TwigTranslationExtension;
+use Symfony\Component\Translation\Formatter\MessageFormatter;
+use Symfony\Component\Translation\IdentityTranslator;
+use Symfony\Component\Translation\Loader\MoFileLoader;
+use Symfony\Component\Translation\Translator;
+use Twig\Environment as Twig;
+
+$container = new Container();
+
+// ...
+
+$container->share(Translator::class, static function (Container $container) {
+    $settings = $container->get('settings')['locale'];
+
+    $translator = new Translator(
+        $settings['locale'],
+        new MessageFormatter(new IdentityTranslator()),
+        $settings['cache']
+    );
+
+    $translator->addLoader('mo', new MoFileLoader());
+
+    // Set translator instance
+    __($translator);
+
+    return $translator;
+})->addArgument($container);
 ```
 
 ## Usage
