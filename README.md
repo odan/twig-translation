@@ -36,37 +36,38 @@ Create a global callback function with the name `__`.
 This example uses the [symfony/translation](https://github.com/symfony/translation) component:
 
 ```php
+<?php
 
 use Symfony\Component\Translation\Translator;
 
 /**
- * Text translation (I18n)
+ * Text translation.
  *
- * @param string|Translator $message
- * @return string
+ * @param string|Translator $message The message or the translator instance
+ *
+ * @return string The translated message
  *
  * <code>
  * echo __('Hello');
  * echo __('There are %s users logged in.', 7);
  * </code>
  */
-function __($message)
+function __($message): string
 {
     /** @var Translator $translator */
     static $translator = null;
-    
     if ($message instanceof Translator) {
         $translator = $message;
+
         return '';
     }
 
     $translated = $translator->trans($message);
     $context = array_slice(func_get_args(), 1);
-    
     if (!empty($context)) {
         $translated = vsprintf($translated, $context);
     }
-    
+
     return $translated;
 }
 ```
