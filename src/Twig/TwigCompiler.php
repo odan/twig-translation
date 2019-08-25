@@ -67,9 +67,8 @@ class TwigCompiler
         $this->twig->disableDebug();
         $this->twig->enableAutoReload();
 
-        if (!$this->twig->getCache()) {
-            throw new RuntimeException('The Twig cache must be enabled!');
-        }
+        // The Twig cache must be enabled
+        $this->twig->setCache($this->cachePath);
 
         $loader = $this->twig->getLoader();
 
@@ -87,7 +86,7 @@ class TwigCompiler
     /**
      * Compile Twig files.
      *
-     * @param string $viewPath
+     * @param string $viewPath The templates path
      *
      * @return void
      */
