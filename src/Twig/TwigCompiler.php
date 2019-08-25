@@ -28,14 +28,18 @@ class TwigCompiler
     private $cachePath;
 
     /**
+     * @var bool
+     */
+    private $verbose;
+
+    /**
      * The constructor.
      *
      * @param Environment $twig The Twig Environment instance
      * @param string $cachePath The twig cache path
-     *
-     * @throws InvalidArgumentException
+     * @param bool $verbose Enable verbose output
      */
-    public function __construct(Environment $twig, string $cachePath)
+    public function __construct(Environment $twig, string $cachePath, bool $verbose = false)
     {
         if (empty($cachePath)) {
             throw new InvalidArgumentException('The cache path is required');
@@ -43,6 +47,7 @@ class TwigCompiler
 
         $this->twig = $twig;
         $this->cachePath = str_replace('\\', '/', trim($cachePath, '\/'));
+        $this->verbose = $verbose;
     }
 
     /**
@@ -68,7 +73,9 @@ class TwigCompiler
         $this->twig->enableAutoReload();
 
         // The Twig cache must be enabled
-        $this->twig->setCache($this->cachePath);
+        if (!$this->twig->getCache()) {
+            $this->twig->setCache($this->cachePath);
+        }
 
         $loader = $this->twig->getLoader();
 
@@ -96,12 +103,18 @@ class TwigCompiler
 
         foreach (new RecursiveIteratorIterator($directory, RecursiveIteratorIterator::SELF_FIRST) as $file) {
             /** @var SplFileInfo $file */
-            if ($file->isFile() && $file->getExtension() === 'twig') {
-                $templateName = substr($file->getPathname(), strlen($viewPath) + 1);
-                $templateName = str_replace('\\', '/', $templateName);
-                echo sprintf("Parsing: %s\n", $templateName);
-                $this->twig->loadTemplate($templateName);
+            if (!$file->isFile() || $file->getExtension() !== 'twig') {
+                continue;
             }
+
+            $templateName = substr($file->getPathname(), strlen($viewPath) + 1);
+            $templateName = str_replace('\\', '/', $templateName);
+
+            if ($this->verbose) {
+                echo sprintf("Parsing: %s\n", $templateName);
+            }
+
+            $this->twig->loadTemplate($templateName);
         }
     }
 

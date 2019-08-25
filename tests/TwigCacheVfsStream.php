@@ -10,8 +10,6 @@ use Twig\Cache\FilesystemCache;
  */
 class TwigCacheVfsStream extends FilesystemCache
 {
-    private $options;
-
     /**
      * Write.
      *
