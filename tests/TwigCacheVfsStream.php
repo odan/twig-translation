@@ -13,8 +13,10 @@ class TwigCacheVfsStream extends FilesystemCache
     /**
      * Write.
      *
-     * @param string $key
-     * @param string $content
+     * @param string $key The key
+     * @param string $content The content
+     *
+     * @return void
      */
     public function write($key, $content)
     {
