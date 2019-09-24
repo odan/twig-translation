@@ -112,11 +112,11 @@ Add a new container entry:
 ```php
 use League\Container\Container;
 use Odan\Twig\TwigTranslationExtension;
+use Slim\Views\Twig;
 use Symfony\Component\Translation\Formatter\MessageFormatter;
 use Symfony\Component\Translation\IdentityTranslator;
 use Symfony\Component\Translation\Loader\MoFileLoader;
 use Symfony\Component\Translation\Translator;
-use Twig\Environment as Twig;
 
 $container = new Container();
 
@@ -236,7 +236,7 @@ File: `bin/parse-twig.php`
 ```php
 use Odan\Twig\TwigCompiler;
 use Slim\App;
-use Twig\Environment as Twig;
+use Slim\Views\Twig;
 
 /** @var App $app */
 $app = require __DIR__ . '/../config/bootstrap.php';
@@ -245,12 +245,22 @@ $settings = $app->getContainer()->get('settings')['twig'];
 $templatePath = (string)$settings['path'];
 $cachePath = (string)$settings['cache_path'];
 
-$twig = $app->getContainer()->get(Twig::class);
+$twig = $app->getContainer()->get(Twig::class)->getEnvironment();
+
+$routeParser = $app->getRouteCollector()->getRouteParser();
+$basePath = $app->getBasePath();
+$factory = new ServerRequestFactory();
+$request = $factory->createServerRequest('GET', '/');
+$runtimeLoader = new TwigRuntimeLoader($routeParser, $request->getUri(), $basePath);
+$twig->addRuntimeLoader($runtimeLoader);
+$twig->addExtension(new TwigExtension());
 
 $compiler = new TwigCompiler($twig, $cachePath, true);
 $compiler->compile();
 
 echo "Done\n";
+
+return 0;
 ```
 
 To run this script just enter: `php bin/parse-twig.php`
