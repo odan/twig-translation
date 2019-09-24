@@ -244,18 +244,9 @@ use Slim\Views\TwigRuntimeLoader;
 $app = require __DIR__ . '/../config/bootstrap.php';
 
 $settings = $app->getContainer()->get('settings')['twig'];
-$templatePath = (string)$settings['path'];
 $cachePath = (string)$settings['cache_path'];
 
 $twig = $app->getContainer()->get(Twig::class)->getEnvironment();
-
-$routeParser = $app->getRouteCollector()->getRouteParser();
-$basePath = $app->getBasePath();
-$factory = new ServerRequestFactory();
-$request = $factory->createServerRequest('GET', '/');
-$runtimeLoader = new TwigRuntimeLoader($routeParser, $request->getUri(), $basePath);
-$twig->addRuntimeLoader($runtimeLoader);
-$twig->addExtension(new TwigExtension());
 
 $compiler = new TwigCompiler($twig, $cachePath, true);
 $compiler->compile();
