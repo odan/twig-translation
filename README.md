@@ -235,8 +235,10 @@ File: `bin/parse-twig.php`
 
 ```php
 use Odan\Twig\TwigCompiler;
-use Slim\App;
+use Slim\Psr7\Factory\ServerRequestFactory;
 use Slim\Views\Twig;
+use Slim\Views\TwigExtension;
+use Slim\Views\TwigRuntimeLoader;
 
 /** @var App $app */
 $app = require __DIR__ . '/../config/bootstrap.php';
