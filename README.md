@@ -231,6 +231,18 @@ You need to iterate and compile all your Twig templates.
 The compilation step generates the PHP cache files that can be parsed from Poedit.
 This script is only an example and must be adapted to your individual environment.
 
+Twig settings:
+
+```php
+// Twig settings
+$settings['twig'] = [
+    'path' => '/path/to/twig/templates',
+    // Should be set to true in production
+    'cache_enabled' => true,
+    'cache_path' => '/path/to/twig-cache', // <---
+];
+```
+
 File: `bin/parse-twig.php`
 
 ```php
@@ -240,9 +252,12 @@ use Slim\Views\Twig;
 use Slim\Views\TwigExtension;
 use Slim\Views\TwigRuntimeLoader;
 
+// Bootstrap Slim application
+
 /** @var App $app */
 $app = require __DIR__ . '/../config/bootstrap.php';
 
+// Read twig settings
 $settings = $app->getContainer()->get('settings')['twig'];
 $cachePath = (string)$settings['cache_path'];
 
