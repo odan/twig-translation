@@ -96,12 +96,14 @@ Register the composer autoloader in composer.json:
 Add settings:
 
 ```php
-// View settings
-$settings['twig'] = [
-    'path' => '/path/to/templates',
-    // Should be set to true in production
-    'cache_enabled' => false,
-    'cache_path' => '/path/to/temp/twig-cache',
+// Locale settings
+$settings['locale'] = [
+    'path' => '/path/to/resources/locale',
+    'cache' => '/path/to/locale-cache',
+    'locale' => 'en_US',
+    'domain' => 'messages',
+    // Should be set to false in production
+    'debug' => false,
 ];
 ```
 
