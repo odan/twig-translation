@@ -247,10 +247,7 @@ File: `bin/parse-twig.php`
 
 ```php
 use Odan\Twig\TwigCompiler;
-use Slim\Psr7\Factory\ServerRequestFactory;
 use Slim\Views\Twig;
-use Slim\Views\TwigExtension;
-use Slim\Views\TwigRuntimeLoader;
 
 // Bootstrap Slim application
 
