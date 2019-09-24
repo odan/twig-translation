@@ -263,6 +263,7 @@ $cachePath = (string)$settings['cache_path'];
 
 $twig = $app->getContainer()->get(Twig::class)->getEnvironment();
 
+// Compile twig to PHP code
 $compiler = new TwigCompiler($twig, $cachePath, true);
 $compiler->compile();
 
