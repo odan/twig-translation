@@ -11,14 +11,8 @@
         "poedit",
         "gettext"
     ],
-    "homepage": "http://github.com/odan/twig-translation",
+    "homepage": "https://github.com/odan/twig-translation",
     "license": "MIT",
-    "authors": [
-        {
-            "name": "odan",
-            "homepage": "https://github.com/odan"
-        }
-    ],
     "require": {
         "php": "^7.0",
         "twig/extensions": "^1.5"
