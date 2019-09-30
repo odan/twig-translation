@@ -96,12 +96,14 @@ Register the composer autoloader in composer.json:
 Add settings:
 
 ```php
-// View settings
-$settings['twig'] = [
-    'path' => '/path/to/templates',
-    // Should be set to true in production
-    'cache_enabled' => false,
-    'cache_path' => '/path/to/temp/twig-cache',
+// Locale settings
+$settings['locale'] = [
+    'path' => '/path/to/resources/locale',
+    'cache' => '/path/to/locale-cache',
+    'locale' => 'en_US',
+    'domain' => 'messages',
+    // Should be set to false in production
+    'debug' => false,
 ];
 ```
 
@@ -110,11 +112,11 @@ Add a new container entry:
 ```php
 use League\Container\Container;
 use Odan\Twig\TwigTranslationExtension;
+use Slim\Views\Twig;
 use Symfony\Component\Translation\Formatter\MessageFormatter;
 use Symfony\Component\Translation\IdentityTranslator;
 use Symfony\Component\Translation\Loader\MoFileLoader;
 use Symfony\Component\Translation\Translator;
-use Twig\Environment as Twig;
 
 $container = new Container();
 
@@ -229,26 +231,42 @@ You need to iterate and compile all your Twig templates.
 The compilation step generates the PHP cache files that can be parsed from Poedit.
 This script is only an example and must be adapted to your individual environment.
 
+Twig settings:
+
+```php
+// Twig settings
+$settings['twig'] = [
+    'path' => '/path/to/twig/templates',
+    // Should be set to true in production
+    'cache_enabled' => true,
+    'cache_path' => '/path/to/twig-cache', // <---
+];
+```
+
 File: `bin/parse-twig.php`
 
 ```php
 use Odan\Twig\TwigCompiler;
-use Slim\App;
-use Twig\Environment as Twig;
+use Slim\Views\Twig;
+
+// Bootstrap Slim application
 
 /** @var App $app */
 $app = require __DIR__ . '/../config/bootstrap.php';
 
+// Read twig settings
 $settings = $app->getContainer()->get('settings')['twig'];
-$templatePath = (string)$settings['path'];
 $cachePath = (string)$settings['cache_path'];
 
-$twig = $app->getContainer()->get(Twig::class);
+$twig = $app->getContainer()->get(Twig::class)->getEnvironment();
 
+// Compile twig templates (*.twig) to PHP code
 $compiler = new TwigCompiler($twig, $cachePath, true);
 $compiler->compile();
 
 echo "Done\n";
+
+return 0;
 ```
 
 To run this script just enter: `php bin/parse-twig.php`
