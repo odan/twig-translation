@@ -247,18 +247,22 @@ File: `bin/parse-twig.php`
 
 ```php
 use Odan\Twig\TwigCompiler;
+use Slim\App;
 use Slim\Views\Twig;
 
 // Bootstrap Slim application
 
+/** @var ContainerInterface $container */
+$container = (require __DIR__ . '/../config/bootstrap.php')->getContainer();
+
 /** @var App $app */
-$app = require __DIR__ . '/../config/bootstrap.php';
+$app = $container->get(App::class);
 
 // Read twig settings
-$settings = $app->getContainer()->get('settings')['twig'];
+$settings = $container->get('settings')['twig'];
 $cachePath = (string)$settings['cache_path'];
 
-$twig = $app->getContainer()->get(Twig::class)->getEnvironment();
+$twig = $container->get(Twig::class)->getEnvironment();
 
 // Compile twig templates (*.twig) to PHP code
 $compiler = new TwigCompiler($twig, $cachePath, true);
