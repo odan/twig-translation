@@ -10,7 +10,7 @@ use Twig\TwigFunction;
 /**
  * Twig translation extension.
  */
-class TwigTranslationExtension implements ExtensionInterface
+final class TwigTranslationExtension implements ExtensionInterface
 {
     /**
      * The translator callback function.

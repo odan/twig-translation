@@ -15,7 +15,7 @@ use Twig\Loader\FilesystemLoader;
 /**
  * Twig file compiler.
  */
-class TwigCompiler
+final class TwigCompiler
 {
     /**
      * @var Environment
