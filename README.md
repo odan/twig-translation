@@ -11,7 +11,7 @@ A Twig Translation Extension.
 
 ## Requirements
 
-* PHP 7.1+
+* PHP 7.2+
 
 ## Installation
 
