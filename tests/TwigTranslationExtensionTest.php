@@ -129,5 +129,4 @@ class TwigTranslationExtensionTest extends AbstractTest
         $extension = $this->newExtensionInstance();
         $this->assertEmpty($extension->getOperators());
     }
-
 }
