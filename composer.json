@@ -14,8 +14,8 @@
     "homepage": "https://github.com/odan/twig-translation",
     "license": "MIT",
     "require": {
-        "php": "^7.0",
-        "twig/extensions": "^1.5"
+        "php": "^7.1",
+        "twig/twig": "^3.0"
     },
     "require-dev": {
         "overtrue/phplint": "^1.1",

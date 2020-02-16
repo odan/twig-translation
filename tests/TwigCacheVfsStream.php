@@ -18,7 +18,7 @@ class TwigCacheVfsStream extends FilesystemCache
      *
      * @return void
      */
-    public function write($key, $content)
+    public function write(string $key, string $content): void
     {
         $dir = dirname($key);
         if (!is_dir($dir)) {

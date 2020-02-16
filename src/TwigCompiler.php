@@ -13,7 +13,7 @@ use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 
 /**
- * Class TwigCompiler.
+ * Twig file compiler.
  */
 class TwigCompiler
 {
@@ -93,7 +93,7 @@ class TwigCompiler
     /**
      * Compile Twig files.
      *
-     * @param string $viewPath The templates path
+     * @param string $viewPath The template path
      *
      * @return void
      */
@@ -114,7 +114,9 @@ class TwigCompiler
                 echo sprintf("Parsing: %s\n", $templateName);
             }
 
-            $this->twig->loadTemplate($templateName);
+            $className = $this->twig->getTemplateClass($templateName);
+
+            $this->twig->loadTemplate($className, $templateName);
         }
     }
 
@@ -122,9 +124,9 @@ class TwigCompiler
      * Remove directory recursively.
      * This function is compatible with vfsStream.
      *
-     * @param string $path Path
+     * @param string $path The path
      *
-     * @return bool true on success or false on failure
+     * @return bool True on success or false on failure
      */
     private function removeDirectory(string $path): bool
     {

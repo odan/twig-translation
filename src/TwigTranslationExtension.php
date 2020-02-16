@@ -3,14 +3,14 @@
 namespace Odan\Twig;
 
 use InvalidArgumentException;
-use Twig\Extensions\I18nExtension;
+use Twig\Extension\ExtensionInterface;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
 
 /**
- * Class TwigTranslationExtension.
+ * Twig translation extension.
  */
-class TwigTranslationExtension extends I18nExtension
+class TwigTranslationExtension implements ExtensionInterface
 {
     /**
      * The translator callback function.
@@ -39,7 +39,7 @@ class TwigTranslationExtension extends I18nExtension
     /**
      * {@inheritdoc}
      */
-    public function getFilters()
+    public function getFilters(): array
     {
         return [
             new TwigFilter('__', [$this, '__']),
@@ -49,7 +49,7 @@ class TwigTranslationExtension extends I18nExtension
     /**
      * {@inheritdoc}
      */
-    public function getFunctions()
+    public function getFunctions(): array
     {
         $translator = new TwigFunction('__', [$this, '__']);
         $translator->setArguments([]);
@@ -65,5 +65,37 @@ class TwigTranslationExtension extends I18nExtension
     public function __()
     {
         return call_user_func_array($this->translator, func_get_args());
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getTokenParsers()
+    {
+        return [];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getNodeVisitors()
+    {
+        return [];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getTests()
+    {
+        return [];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getOperators()
+    {
+        return [];
     }
 }

@@ -81,4 +81,53 @@ class TwigTranslationExtensionTest extends AbstractTest
         $extension = $this->newExtensionInstance();
         $this->assertSame('a', $extension->__('a'));
     }
+
+    /**
+     * Test.
+     *
+     * @return void
+     * @covers ::getTokenParsers
+     */
+    public function testGetTokenParsers()
+    {
+        $extension = $this->newExtensionInstance();
+        $this->assertEmpty($extension->getTokenParsers());
+    }
+
+    /**
+     * Test.
+     *
+     * @return void
+     * @covers ::getNodeVisitors
+     */
+    public function testGetNodeVisitors()
+    {
+        $extension = $this->newExtensionInstance();
+        $this->assertEmpty($extension->getNodeVisitors());
+    }
+
+    /**
+     * Test.
+     *
+     * @return void
+     * @covers ::getTests
+     */
+    public function testGetTests()
+    {
+        $extension = $this->newExtensionInstance();
+        $this->assertEmpty($extension->getTests());
+    }
+
+    /**
+     * Test.
+     *
+     * @return void
+     * @covers ::getOperators
+     */
+    public function testGetOperators()
+    {
+        $extension = $this->newExtensionInstance();
+        $this->assertEmpty($extension->getOperators());
+    }
+
 }
