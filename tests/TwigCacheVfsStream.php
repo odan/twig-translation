@@ -21,14 +21,15 @@ class TwigCacheVfsStream extends FilesystemCache
     public function write(string $key, string $content): void
     {
         $dir = dirname($key);
-        if (!is_dir($dir)) {
-            if (false === @mkdir($dir, 0777, true)) {
-                clearstatcache(true, $dir);
-                if (!is_dir($dir)) {
-                    throw new RuntimeException(sprintf('Unable to create the cache directory (%s).', $dir));
-                }
+
+        if (!is_dir($dir) && @mkdir($dir, 0777, true) === false) {
+            clearstatcache(true, $dir);
+            if (!is_dir($dir)) {
+                throw new RuntimeException(sprintf('Unable to create the cache directory (%s).', $dir));
             }
-        } elseif (!is_writable($dir)) {
+        }
+
+        if (!is_writable($dir)) {
             throw new RuntimeException(sprintf('Unable to write in the cache directory (%s).', $dir));
         }
 
