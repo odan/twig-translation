@@ -9,6 +9,9 @@ A Twig Translation Extension.
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/odan/twig-translation/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/odan/twig-translation/?branch=master)
 [![Total Downloads](https://img.shields.io/packagist/dt/odan/twig-translation.svg)](https://packagist.org/packages/odan/twig-translation)
 
+## Requirements
+
+* PHP 7.1+
 
 ## Installation
 
@@ -111,7 +114,6 @@ Add a new container entry:
 
 ```php
 use League\Container\Container;
-use Odan\Twig\TwigTranslationExtension;
 use Slim\Views\Twig;
 use Symfony\Component\Translation\Formatter\MessageFormatter;
 use Symfony\Component\Translation\IdentityTranslator;
