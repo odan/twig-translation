@@ -46,14 +46,12 @@ final class TwigCompiler
         }
 
         $this->twig = $twig;
-        $this->cachePath = str_replace('\\', '/', trim($cachePath, '\/'));
+        $this->cachePath = pathinfo(str_replace('\\', '/', $cachePath), PATHINFO_DIRNAME);
         $this->verbose = $verbose;
     }
 
     /**
      * Compile all twig templates.
-     *
-     * @throws Exception Exception
      *
      * @return bool Success
      */
