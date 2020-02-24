@@ -116,7 +116,6 @@ Add a new container entry:
 <?php
 
 use Psr\Container\ContainerInterface;
-use Slim\Views\Twig;
 use Symfony\Component\Translation\Formatter\MessageFormatter;
 use Symfony\Component\Translation\IdentityTranslator;
 use Symfony\Component\Translation\Loader\MoFileLoader;
