@@ -113,33 +113,37 @@ $settings['locale'] = [
 Add a new container entry:
 
 ```php
-use League\Container\Container;
+<?php
+
+use Psr\Container\ContainerInterface;
 use Slim\Views\Twig;
 use Symfony\Component\Translation\Formatter\MessageFormatter;
 use Symfony\Component\Translation\IdentityTranslator;
 use Symfony\Component\Translation\Loader\MoFileLoader;
 use Symfony\Component\Translation\Translator;
 
-$container = new Container();
-
 // ...
 
-$container->share(Translator::class, static function (Container $container) {
-    $settings = $container->get('settings')['locale'];
+return [
+    // ...
 
-    $translator = new Translator(
-        $settings['locale'],
-        new MessageFormatter(new IdentityTranslator()),
-        $settings['cache']
-    );
+    Translator::class => function (ContainerInterface $container) {
+        $settings = $container->get('settings')['locale'];
 
-    $translator->addLoader('mo', new MoFileLoader());
+        $translator = new Translator(
+            $settings['locale'],
+            new MessageFormatter(new IdentityTranslator()),
+            $settings['cache']
+        );
 
-    // Set translator instance
-    __($translator);
+        $translator->addLoader('mo', new MoFileLoader());
 
-    return $translator;
-})->addArgument($container);
+        // Set translator instance
+        __($translator);
+
+        return $translator;
+    },
+];
 ```
 
 ## Usage
