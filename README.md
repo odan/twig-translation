@@ -136,7 +136,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  *
  * @return string The translated message
  */
-function __test($message, ...$context): string
+function __($message, ...$context): string
 {
     /** @var TranslatorInterface $translator */
     static $translator = null;
