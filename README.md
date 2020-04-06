@@ -91,7 +91,8 @@ return [
         $translator = new Translator(
             $settings['locale'],
             new MessageFormatter(new IdentityTranslator()),
-            $settings['cache']
+            $settings['cache'],
+            $settings['debug']
         );
 
         $translator->addLoader('mo', new MoFileLoader());
