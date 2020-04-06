@@ -3,7 +3,6 @@
 namespace Odan\Twig;
 
 use DirectoryIterator;
-use Exception;
 use FilesystemIterator;
 use InvalidArgumentException;
 use RecursiveDirectoryIterator;

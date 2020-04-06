@@ -6,6 +6,11 @@ use Odan\Twig\TwigTranslationExtension;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Translation\Formatter\MessageFormatter;
+use Symfony\Component\Translation\IdentityTranslator;
+use Symfony\Component\Translation\Loader\MoFileLoader;
+use Symfony\Component\Translation\Translator;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 
@@ -35,14 +40,14 @@ abstract class AbstractTest extends TestCase
     protected $root;
 
     /**
-     * @var array
+     * @var mixed[]
      */
     protected $options = [];
 
     /**
      * Set up.
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->options = [
             // Public assets cache directory
@@ -93,14 +98,30 @@ abstract class AbstractTest extends TestCase
     }
 
     /**
-     * @return TwigTranslationExtension
+     * Create translator.
+     *
+     * @return TranslatorInterface The translator
      */
-    public function newExtensionInstance()
+    public function createTranslator(): TranslatorInterface
     {
-        $translator = function ($text) {
-            return $text;
-        };
+        $translator = new Translator(
+            'en_US',
+            new MessageFormatter(new IdentityTranslator()),
+            null
+        );
 
-        return new TwigTranslationExtension($translator);
+        $translator->addLoader('mo', new MoFileLoader());
+
+        return $translator;
+    }
+
+    /**
+     * Create instance.
+     *
+     * @return TwigTranslationExtension The extension
+     */
+    public function newExtensionInstance(): TwigTranslationExtension
+    {
+        return new TwigTranslationExtension($this->createTranslator());
     }
 }

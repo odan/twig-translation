@@ -23,36 +23,11 @@ class TwigTranslationExtensionTest extends AbstractTest
     }
 
     /**
-     * Test create object.
-     *
-     * @expectedException \InvalidArgumentException
-     *
-     * @return void
-     */
-    public function testInstanceError()
-    {
-        new TwigTranslationExtension();
-    }
-
-    /**
-     * Test create object.
-     *
-     * @expectedException \InvalidArgumentException
-     *
-     * @return void
-     */
-    public function testInstanceError2()
-    {
-        new TwigTranslationExtension('__non_existing_function__');
-    }
-
-    /**
      * Test.
      *
-     * @return void
      * @covers ::getFunctions
      */
-    public function testFunctions()
+    public function testFunctions(): void
     {
         $extension = $this->newExtensionInstance();
         $this->assertNotEmpty($extension->getFunctions());
@@ -73,22 +48,20 @@ class TwigTranslationExtensionTest extends AbstractTest
     /**
      * Test.
      *
-     * @return void
-     * @covers ::__
+     * @covers ::translate
      */
-    public function testTranslate()
+    public function testTranslate(): void
     {
         $extension = $this->newExtensionInstance();
-        $this->assertSame('a', $extension->__('a'));
+        $this->assertSame('a', $extension->translate('a'));
     }
 
     /**
      * Test.
      *
-     * @return void
      * @covers ::getTokenParsers
      */
-    public function testGetTokenParsers()
+    public function testGetTokenParsers(): void
     {
         $extension = $this->newExtensionInstance();
         $this->assertEmpty($extension->getTokenParsers());
@@ -97,10 +70,9 @@ class TwigTranslationExtensionTest extends AbstractTest
     /**
      * Test.
      *
-     * @return void
      * @covers ::getNodeVisitors
      */
-    public function testGetNodeVisitors()
+    public function testGetNodeVisitors(): void
     {
         $extension = $this->newExtensionInstance();
         $this->assertEmpty($extension->getNodeVisitors());
@@ -109,10 +81,9 @@ class TwigTranslationExtensionTest extends AbstractTest
     /**
      * Test.
      *
-     * @return void
      * @covers ::getTests
      */
-    public function testGetTests()
+    public function testGetTests(): void
     {
         $extension = $this->newExtensionInstance();
         $this->assertEmpty($extension->getTests());
@@ -121,10 +92,9 @@ class TwigTranslationExtensionTest extends AbstractTest
     /**
      * Test.
      *
-     * @return void
      * @covers ::getOperators
      */
-    public function testGetOperators()
+    public function testGetOperators(): void
     {
         $extension = $this->newExtensionInstance();
         $this->assertEmpty($extension->getOperators());

@@ -3,6 +3,7 @@
 namespace Odan\Twig;
 
 use InvalidArgumentException;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Extension\ExtensionInterface;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
@@ -13,27 +14,22 @@ use Twig\TwigFunction;
 final class TwigTranslationExtension implements ExtensionInterface
 {
     /**
-     * The translator callback function.
+     * The translator.
      *
-     * @var callable|string
+     * @var TranslatorInterface
      */
     private $translator;
 
     /**
      * The constructor.
      *
-     * @param callable|string|null $translator A callable implementing the translation.
-     * If null, the "__" function will be used.
+     * @param TranslatorInterface $translator The translator
      *
      * @throws InvalidArgumentException
      */
-    public function __construct($translator = null)
+    public function __construct(TranslatorInterface $translator)
     {
-        $this->translator = $translator ?: '__';
-
-        if (!is_callable($this->translator)) {
-            throw new InvalidArgumentException('Translator must be a valid callable');
-        }
+        $this->translator = $translator;
     }
 
     /**
@@ -42,7 +38,7 @@ final class TwigTranslationExtension implements ExtensionInterface
     public function getFilters(): array
     {
         return [
-            new TwigFilter('__', [$this, '__']),
+            new TwigFilter('__', [$this, 'translate']),
         ];
     }
 
@@ -51,10 +47,10 @@ final class TwigTranslationExtension implements ExtensionInterface
      */
     public function getFunctions(): array
     {
-        $translator = new TwigFunction('__', [$this, '__']);
-        $translator->setArguments([]);
+        $twigFunction = new TwigFunction('__', [$this, 'translate']);
+        $twigFunction->setArguments([]);
 
-        return [$translator];
+        return [$twigFunction];
     }
 
     /**
@@ -62,13 +58,16 @@ final class TwigTranslationExtension implements ExtensionInterface
      *
      * @return mixed
      */
-    public function __()
+    public function translate()
     {
-        return call_user_func_array($this->translator, func_get_args());
+        $args = func_get_args();
+        $parameters = array_slice($args, 1);
+
+        return $this->translator->trans($args[0], $parameters);
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getTokenParsers()
     {
@@ -76,7 +75,7 @@ final class TwigTranslationExtension implements ExtensionInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getNodeVisitors()
     {
@@ -84,7 +83,7 @@ final class TwigTranslationExtension implements ExtensionInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getTests()
     {
@@ -92,7 +91,7 @@ final class TwigTranslationExtension implements ExtensionInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getOperators()
     {

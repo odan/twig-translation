@@ -19,9 +19,15 @@ A Twig Translation Extension.
 composer require odan/twig-translation
 ```
 
-## Integration
+### Registering the extension
 
-### Register the Twig Extension
+This example uses the [symfony/translation](https://github.com/symfony/translation) component:
+
+```
+composer require symfony/translation 
+```
+
+Register the Twig Extension:
 
 ```php
 $loader = new \Twig\Loader\FilesystemLoader('/path/to/templates');
@@ -29,72 +35,24 @@ $twig = new \Twig\Environment($loader, array(
     'cache' => '/path/to/twig-cache',
 ));
 
-$twig->addExtension(new \Odan\Twig\TwigTranslationExtension());
-```
+$translator = new \Symfony\Component\Translation\Translator(
+    'en_US',
+    new MessageFormatter(new IdentityTranslator()),
+    null
+);
 
-## Register a callback function
+$translator->addLoader('mo', new MoFileLoader());
 
-Create a global callback function with the name `__`.
-
-This example uses the [symfony/translation](https://github.com/symfony/translation) component:
-
-### Installation
-
-```php
-composer require symfony/translation 
-composer require symfony/config
-```
-
-Add this function to a file like `src/Utility/translate.php`:
-
-```php
-<?php
-
-use Symfony\Component\Translation\Translator;
-
-/**
- * Text translation.
- *
- * @param string|Translator $message The message or the translator instance
- *
- * @return string The translated message
- *
- * <code>
- * echo __('Hello');
- * echo __('There are %s users logged in.', 7);
- * </code>
- */
-function __($message): string
-{
-    /** @var Translator $translator */
-    static $translator = null;
-    if ($message instanceof Translator) {
-        $translator = $message;
-
-        return '';
-    }
-
-    $translated = $translator->trans($message);
-    $context = array_slice(func_get_args(), 1);
-    if (!empty($context)) {
-        $translated = vsprintf($translated, $context);
-    }
-
-    return $translated;
-}
-```
-
-Register the composer autoloader in composer.json:
-
-```json
-"autoload": {
-    "files": [
-        "src/Utility/translate.php"
-    ]
-},
+$twig->addExtension(new \Odan\Twig\TwigTranslationExtension($translator));
 ```
 
 ## Slim 4 integration
+
+To install the [symfony/translation](https://github.com/symfony/translation) component, run:
+
+```
+composer require symfony/translation 
+```
 
 Add settings:
 
@@ -110,11 +68,12 @@ $settings['locale'] = [
 ];
 ```
 
-Add a new container entry:
+Add a new container definition:
 
 ```php
 <?php
 
+use Odan\Twig\TwigTranslationExtension;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Translation\Formatter\MessageFormatter;
 use Symfony\Component\Translation\IdentityTranslator;
@@ -137,13 +96,77 @@ return [
 
         $translator->addLoader('mo', new MoFileLoader());
 
-        // Set translator instance
-        __($translator);
+        // Optional: Inject the translator instance into the __() function
+        // __($translator);
 
         return $translator;
     },
+
+    Twig::class => function (ContainerInterface $container) {
+        $twig = Twig::create('/path/to/templates', []);
+    
+        // Add extension
+        $translator = $container->get(Translator::class);
+        $twig->addExtension(new TwigTranslationExtension($translator));
+    
+        // Add more extension ...
+    
+        return $twig;
+    },
+
 ];
 ```
+
+### Create a global translation function
+
+This step is **optional**, but recommend if you want to translate messages directly in PHP.
+
+Create the file `src/Utility/translate.php` and copy / paste this content:
+
+```php
+<?php
+
+use Symfony\Contracts\Translation\TranslatorInterface;
+
+/**
+ * Translate text.
+ *
+ * @param string|TranslatorInterface $message The message being translated or the translator
+ * @param string|int|float|bool ...$context The context arguments
+ *
+ * @return string The translated message
+ */
+function __test($message, ...$context): string
+{
+    /** @var TranslatorInterface $translator */
+    static $translator = null;
+    if ($message instanceof TranslatorInterface) {
+        $translator = $message;
+
+        return '';
+    }
+
+    $translated = $translator->trans($message);
+    if (!empty($context)) {
+        $translated = vsprintf($translated, $context);
+    }
+
+    return $translated;
+}
+
+```
+
+Register the composer autoloader in composer.json:
+
+```json
+"autoload": {
+    "files": [
+        "src/Utility/translate.php"
+    ]
+},
+```
+
+Run: `composer update`
 
 ## Usage
 
