@@ -53,7 +53,7 @@ class TwigTranslationExtensionTest extends AbstractTest
     public function testTranslate(): void
     {
         $extension = $this->newExtensionInstance();
-        $this->assertSame('a', $extension->translate('a'));
+        $this->assertSame('a', $extension->__('a'));
     }
 
     /**

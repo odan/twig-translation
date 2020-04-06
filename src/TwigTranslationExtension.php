@@ -38,7 +38,7 @@ final class TwigTranslationExtension implements ExtensionInterface
     public function getFilters(): array
     {
         return [
-            new TwigFilter('__', [$this, 'translate']),
+            new TwigFilter('__', [$this, '__']),
         ];
     }
 
@@ -47,7 +47,7 @@ final class TwigTranslationExtension implements ExtensionInterface
      */
     public function getFunctions(): array
     {
-        $twigFunction = new TwigFunction('__', [$this, 'translate']);
+        $twigFunction = new TwigFunction('__', [$this, '__']);
         $twigFunction->setArguments([]);
 
         return [$twigFunction];
@@ -58,7 +58,7 @@ final class TwigTranslationExtension implements ExtensionInterface
      *
      * @return mixed
      */
-    public function translate()
+    public function __()
     {
         $args = func_get_args();
         $parameters = array_slice($args, 1);
