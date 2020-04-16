@@ -309,6 +309,7 @@ Here you can find a more advanced [Symfony command example](https://github.com/o
 ## Similar libraries
 
 * https://twig-extensions.readthedocs.io/en/latest/i18n.html
+* https://symfony.com/doc/current/reference/twig_reference.html#trans
 
 ## License
 
