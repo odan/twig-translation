@@ -308,11 +308,11 @@ Here you can find a more advanced [Symfony command example](https://github.com/o
 
 ## Similar libraries
 
-The [symfony/twig-bridge](https://github.com/symfony/twig-bridge) provides a Twig 3 `TranslationExtension`
-and a `TwigExtractor` to extract translation messages from a twig template.
+The [symfony/twig-bridge](https://github.com/symfony/twig-bridge) provides `TranslationExtension` for Twig 3+.
 
-* https://github.com/symfony/twig-bridge
-* https://symfony.com/doc/current/reference/twig_reference.html#trans
+**Read more**
+
+* [Slim 4 - Twig Translations](https://odan.github.io/2020/07/17/slim-twig-templates.html#translations)
 
 ## License
 
