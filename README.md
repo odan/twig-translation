@@ -305,3 +305,16 @@ return 0;
 To run this script just enter: `php bin/parse-twig.php`
 
 Here you can find a more advanced [Symfony command example](https://github.com/odan/slim4-skeleton/blob/master/src/Console/TwigCompilerCommand.php).
+
+## Similar libraries
+
+The [symfony/twig-bridge](https://github.com/symfony/twig-bridge) provides `TranslationExtension` for Twig 3+.
+
+**Read more**
+
+* [Slim 4 - Twig Translations](https://odan.github.io/2020/07/17/slim-twig-templates.html#translations)
+
+## License
+
+* MIT
+
