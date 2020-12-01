@@ -1,6 +1,5 @@
 parameters:
-    autoload_files:
+    bootstrapFiles:
         - vendor/autoload.php
     reportUnmatchedIgnoredErrors: false
     ignoreErrors:
-        - '/Parameter #1 $function of function call_user_func_array expects callable(): mixed, (callable(): mixed)|string given/'
