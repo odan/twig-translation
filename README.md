@@ -11,7 +11,7 @@ A Twig Translation Extension.
 
 ## Requirements
 
-* PHP 7.2+
+* PHP 7.3+ or 8.0+
 
 ## Installation
 
@@ -312,7 +312,7 @@ The [symfony/twig-bridge](https://github.com/symfony/twig-bridge) provides `Tran
 
 **Read more**
 
-* [Slim 4 - Twig Translations](https://odan.github.io/2020/07/17/slim-twig-templates.html#translations)
+* [Slim 4 - Twig Translations](https://odan.github.io/2020/04/17/slim4-twig-templates.html#translations)
 
 ## License
 

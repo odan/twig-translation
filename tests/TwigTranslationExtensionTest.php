@@ -24,8 +24,6 @@ class TwigTranslationExtensionTest extends AbstractTest
 
     /**
      * Test.
-     *
-     * @covers ::getFunctions
      */
     public function testFunctions(): void
     {
@@ -37,7 +35,6 @@ class TwigTranslationExtensionTest extends AbstractTest
      * Test.
      *
      * @return void
-     * @covers ::getFilters
      */
     public function testFilters()
     {
@@ -47,8 +44,6 @@ class TwigTranslationExtensionTest extends AbstractTest
 
     /**
      * Test.
-     *
-     * @covers ::translate
      */
     public function testTranslate(): void
     {
@@ -58,8 +53,6 @@ class TwigTranslationExtensionTest extends AbstractTest
 
     /**
      * Test.
-     *
-     * @covers ::getTokenParsers
      */
     public function testGetTokenParsers(): void
     {
@@ -69,8 +62,6 @@ class TwigTranslationExtensionTest extends AbstractTest
 
     /**
      * Test.
-     *
-     * @covers ::getNodeVisitors
      */
     public function testGetNodeVisitors(): void
     {
@@ -80,8 +71,6 @@ class TwigTranslationExtensionTest extends AbstractTest
 
     /**
      * Test.
-     *
-     * @covers ::getTests
      */
     public function testGetTests(): void
     {
@@ -91,8 +80,6 @@ class TwigTranslationExtensionTest extends AbstractTest
 
     /**
      * Test.
-     *
-     * @covers ::getOperators
      */
     public function testGetOperators(): void
     {

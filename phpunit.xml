@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit colors="true"
+<phpunit bootstrap="vendor/autoload.php"
+         colors="true"
          backupGlobals="false"
          backupStaticAttributes="false">
     <testsuites>
@@ -8,11 +9,11 @@
         </testsuite>
     </testsuites>
     <filter>
-        <whitelist processUncoveredFilesFromWhitelist="true">
+        <whitelist processUncoveredFilesFromWhitelist="false">
             <directory suffix=".php">src</directory>
             <exclude>
-                <directory>build</directory>
                 <directory>vendor</directory>
+                <directory>build</directory>
             </exclude>
         </whitelist>
     </filter>

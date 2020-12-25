@@ -24,7 +24,6 @@ class TwigCompilerTest extends AbstractTest
      * Test.
      *
      * @return void
-     * @covers ::__construct
      */
     public function testInstance()
     {
@@ -35,11 +34,10 @@ class TwigCompilerTest extends AbstractTest
      * Test.
      *
      * @return void
-     * @covers ::__construct
-     * @expectedException \Exception
      */
     public function testInstanceWithError()
     {
+        $this->expectException(\Exception::class);
         new TwigCompiler($this->env, '');
     }
 
@@ -47,9 +45,6 @@ class TwigCompilerTest extends AbstractTest
      * Test.
      *
      * @return void
-     * @covers ::compile
-     * @covers ::compileFiles
-     * @covers ::removeDirectory
      */
     public function testCompile()
     {
