@@ -9,6 +9,18 @@ A Twig Translation Extension.
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/odan/twig-translation/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/odan/twig-translation/?branch=master)
 [![Total Downloads](https://img.shields.io/packagist/dt/odan/twig-translation.svg)](https://packagist.org/packages/odan/twig-translation)
 
+**Please read this first!**
+
+The [symfony/twig-bridge](https://github.com/symfony/twig-bridge) also provides a 
+Twig 3 [TranslationExtension](https://github.com/symfony/twig-bridge/blob/5.x/Extension/TranslationExtension.php) 
+to translate messages with the [trans](https://symfony.com/doc/current/translation.html#translations-in-templates) filter.
+For this reason the `odan/twig-translation` component is just redundant and will be deprecated in the near future.
+I strongly recommend you to use the `symfony/twig-bridge` TranslationExtension instead. 
+
+Here you can find an installation guide:
+
+* https://odan.github.io/2020/04/17/slim4-twig-templates.html#translations
+
 ## Requirements
 
 * PHP 7.3+ or 8.0+
