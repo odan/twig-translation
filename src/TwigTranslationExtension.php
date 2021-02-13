@@ -4,14 +4,14 @@ namespace Odan\Twig;
 
 use InvalidArgumentException;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Twig\Extension\ExtensionInterface;
+use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
 
 /**
  * Twig translation extension.
  */
-final class TwigTranslationExtension implements ExtensionInterface
+final class TwigTranslationExtension extends AbstractExtension
 {
     /**
      * The translator.
@@ -64,37 +64,5 @@ final class TwigTranslationExtension implements ExtensionInterface
         $parameters = array_slice($args, 1);
 
         return $this->translator->trans($args[0], $parameters);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getTokenParsers()
-    {
-        return [];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getNodeVisitors()
-    {
-        return [];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getTests()
-    {
-        return [];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getOperators()
-    {
-        return [];
     }
 }
