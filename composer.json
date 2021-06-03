@@ -19,7 +19,7 @@
         "symfony/translation-contracts": "^2"
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "^2",
+        "friendsofphp/php-cs-fixer": "^2 || ^3",
         "overtrue/phplint": "^2 || ^3",
         "phpstan/phpstan": "0.*",
         "phpunit/phpunit": "^9",
