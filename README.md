@@ -198,7 +198,7 @@ Translate a text with a placeholder:
 Output (depends on the language):
 
 ```
-Hello master
+Hello admin
 ```
 
 Translate a text with multiple placeholders:
